@@ -1,0 +1,43 @@
+// Colors
+// $light-green: #95A472;
+$white: #ffffff;
+$black: #000000;
+$brown: #a52a2a;
+$beige: #f5f5dc;
+$grey: #a6a6a6;
+$green: #679436;
+$dark-blue: #05668D;
+$orange: #fbaf35;
+$yellow: #f8df00;
+// $light-grey: #e0e0e0;
+// $cream: #EBF2FA;
+// $light-blue: #6ba2ca;
+
+$theme-colors: (
+    'black':        $black,
+    'white':        $white,
+    'brown':        $brown,
+    'beige':        $beige,
+    'grey':         $grey,
+    'green':        $green,
+    'dark-blue': $dark-blue,
+    'orange': $orange,
+    'yellow': $yellow
+    // 'light-green':  $light-green,
+    // 'cream':        $cream,
+    // 'light-blue': $light-blue,
+    // 'light-gren': $light-grey,
+);
+
+
+// Breakpoints
+$breakpoints: (
+xm: 0,
+sm: 576px,
+md: 768px,
+lg: 992px,
+xl: 1200px
+);
+
+// Max container Size
+$max-width: 1100px;

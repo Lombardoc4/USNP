@@ -1,0 +1,255 @@
+// Variables
+$breakpoints: (
+  xm: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+$display: inline-block, inline, block, flex, none !default;
+$spacer: 1px !default;
+$spacers: (0, auto, -24, -12, 6, 12, 24);
+$sizes: (
+  0: 0,
+  15: 15%,
+  25: 25%,
+  33: 33%,
+  34: 34%,
+  40: 40%,
+  50: 50%,
+  66: 66%,
+  75: 75%,
+  100: 100%,
+  auto: auto
+) !default;
+
+$font-size-range: (from: 12, to: 24) !default;
+$line-height-range: (from: 12, to: 24) !default;
+$letter-spacing: (-4, 20) !default;
+$theme-colors: () !default;
+
+$grid:          true !default; // Make a grid only if we want it to.
+$grid-columns:  12 !default;
+
+// Grid
+@if $grid{
+  %grid-column{
+      position: relative;
+      width: 100%;
+  }
+
+  .row{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .col {
+    @extend %grid-column;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+}
+
+// for each breakpoint
+@each $size, $unit in $breakpoints {
+  $size: if($unit == 0, '', -#{$size});
+  // create items per each breakpoint
+  @include breakpoint-up($unit){
+    // display
+    // example: .d-block, d-sm-block
+    @each $d in $display{
+      .d#{$size}-#{$d}{ display: #{$d}; }
+    }
+
+    // float
+    // example: .float-right, float-sm-right
+    @each $key in (left, right, none){
+      .float#{$size}-#{$key}{ float: #{$key}; }
+    }
+
+    // font
+    // example: .f-20, .f-sm-20
+    @for $key from map-get($font-size-range, from) through map-get($font-size-range, to){
+      .f#{$size}-#{$key}{ font-size: #{$key}px; }
+    }
+
+    // line heights
+    // example: .lh-20, .lh-sm-20
+    @for $key from map-get($line-height-range, from) through map-get($line-height-range, to){
+      .lh#{$size}-#{$key}{ line-height: #{$key}px; }
+    }
+
+    // letter spacings
+    // example: .ls-4, .ls-sm-4
+    // Negative: .ls-n4, .ls-sm-n4
+    @each $key in $letter-spacing{
+      $n: if($key < 0, '.ls' + $size + '-n' + ($key * -1), '.ls#{$size}-' + $key);
+      #{$n}{ letter-spacing: ($key / 1000)+em; }
+    }
+
+    // Theme colors
+    // example: .text-blue, .text-sm-blue
+    //          .bg-blue, .bg-sm-blue
+    @each $name, $color in $theme-colors {
+      .text#{$size}-#{$name}      { color: $color; }
+      .bg#{$size}-#{$name}       { background-color: $color; }
+      .border#{$size}-#{$name}   { border-color: $color; }
+    }
+
+    // width and height sizes
+    // example: .w-0, .w-100, .w-25
+    //          .h-0, .h-100, .h-25
+    //          .mw-50, .mh-50, .mw-25 // Max
+    // Same applies for breakpoints
+    //          .w-sm-25, .h-sm-50
+    @each $sizeN, $sizeP in $sizes {
+      @each $p, $a in (width: w, height: h){
+        .#{$a}#{$size}-#{$sizeN}{ #{$p}: #{$sizeP}; }
+        @if type-of($sizeN) == number and $sizeN > 0 {
+          .max-#{$a}#{$size}-#{$sizeN}{ max-#{$p}: #{$sizeP}; }
+          .min-#{$a}#{$size}-#{$sizeN}{ min-#{$p}: #{$sizeP}; }
+        }
+      }
+    }
+
+    // text align#{$size}
+    @each $key in (center, right, left){
+      .text#{$size}-align-#{$key}{ text-align: #{$key}; }
+    }
+
+    // text transform#{$size}
+    @each $key in (uppercase, lowercase, capitalize){
+      .text#{$size}-transform-#{$key}{ text-transform: #{$key}; }
+    }
+
+    // position#{$size}
+    @each $key in (absolute, relative, sticky, static, fixed){
+      .position#{$size}-#{$key}{ position: #{$key}; }
+    }
+
+    // overflow#{$size}
+    @each $key in (visible, auto, hidden, scroll){
+      .overflow#{$size}-#{$key}{ overflow: #{$key}; }
+    }
+
+    // backface-visibility#{$size}
+    @each $key in (visible, hidden){
+      .backface#{$size}-visibility-#{$key}{ backface-visibility: #{$key}; }
+    }
+
+    // transform-style#{$size}
+    @each $key in (flat, preserve-3d){
+      .transform#{$size}-style-#{$key}{ transform-style: #{$key}; }
+    }
+
+    // visibility#{$size}
+    @each $key in (visible, hidden){
+      .visibility#{$size}-#{$key}{ visibility: #{$key}; }
+    }
+
+    // pointer events#{$size}
+    @each $key in (none, auto, stroke, fill){
+      .pointer#{$size}-events-#{$key}{ pointer-events: #{$key}; }
+    }
+
+    /* vertical align */
+    @each $key in (middle, top, bottom){
+      .slide.align#{$size}-#{$key} > div,
+      .section.align#{$size}-#{$key} > div{
+            vertical-align: $key;
+      }
+    }
+
+    // center
+    @each $key in (v, h, both){
+      $h_b: if($key == h or $key == both, true, false);
+      $v_b: if($key == h, false, true);
+      .center#{$size}-#{$key}{
+        @include center($h_b, $v_b);
+      }
+    }
+
+    // font weight
+    .font#{$size}-weight-normal{ font-weight: 400; }
+    .font#{$size}-weight-light { font-weight: 300; }
+    .font#{$size}-weight-bold  { font-weight: 600; }
+    .font#{$size}-italic       { font-style: italic; }
+    .font#{$size}-small-caps   { font-variant: small-caps; }
+
+    // fixed top and bottom
+    .fixed#{$size}-top{ @include fixed(top 0 right 0 left 0); }
+    .fixed#{$size}-bottom{ @include fixed(bottom 0 right 0 left 0); }
+
+    // opacity
+    .opacity#{$size}-1{ @include opacity(1); }
+    .opacity#{$size}-0{ @include opacity(0); }
+
+    // cursor
+    .cursor#{$size}-pointer{ cursor: pointer; }
+    .cursor#{$size}-default{ cursor: default; }
+
+    // clearfix
+    .clearfix#{$size}{ @include clearfix(); }
+
+    // flex align
+    @each $key in (auto, start, end, flex-end, center, baseline, stretch){
+      .align-self#{$size}-#{$key}{ align-self:  #{$key}; }
+      .align-items#{$size}-#{$key}{ align-items:  #{$key}; }
+    }
+
+    // flex order
+    @for $i from 1 through $grid-columns{
+      .order#{$size}-#{$i}{ order: $i; }
+    }
+
+    // Justify content
+    @each $key, $val in (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around, evenly: space-evenly){
+      .justify-content#{$size}-#{$key} { justify-content: $val; }
+    }
+
+    .flex#{$size}-column    { flex-direction: column; }
+    .flex#{$size}-row       { flex-direction: row; }
+    .flex#{$size}-fill      { flex: 1 1 auto; }
+    .flex-grow#{$size}-1    { flex-grow: 1; }
+    .flex-grow#{$size}-0    { flex-grow: 0; }
+    .flex-shrink#{$size}-1  { flex-shrink: 1; }
+    .flex-shrink#{$size}-0  { flex-shrink: 0; }
+    .flex#{$size}-wrap      { flex-wrap: wrap; }
+    .flex#{$size}-nowrap    { flex-wrap: nowrap; }
+
+    // padding & margin spacing#{$size}
+    @each $k in $spacers{
+      @each $key, $val in (margin: m, padding: p) {
+        @if not ($val == p) or not ($k == auto) and not ($k < 0) { // Not for padding
+          $n: if($k != auto and $k < 0, 'n' + ($k * -1), $k);
+          $space: if($k != auto, ($k * $spacer), $k);
+          .#{$val}#{$size}-#{$n}{ #{$key}: $space; }
+          .#{$val}t#{$size}-#{$n}, .#{$val}y#{$size}-#{$n}{ #{$key}-top:    $space; }
+          .#{$val}b#{$size}-#{$n}, .#{$val}y#{$size}-#{$n}{ #{$key}-bottom: $space; }
+          .#{$val}l#{$size}-#{$n}, .#{$val}x#{$size}-#{$n}{ #{$key}-left:   $space; }
+          .#{$val}r#{$size}-#{$n}, .#{$val}x#{$size}-#{$n}{ #{$key}-right:  $space; }
+        }
+      }
+    }
+
+    // Grid
+    @if $grid{
+      @for $i from 1 through $grid-columns {
+        .col#{$size}-#{$i}{
+          flex: 0 0 percentage($i / $grid-columns);
+          max-width: percentage($i / $grid-columns);
+        }
+      }
+    }
+
+  } // end breakpoint
+
+  // Extend these outside of media queries
+  @if $grid{
+    @for $i from 1 through $grid-columns {
+      .col#{$size}-#{$i}{ @extend %grid-column; }
+    }
+  }
+
+} // end breakpoints

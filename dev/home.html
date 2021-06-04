@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Native Plants</title>
+    <link rel="stylesheet" href="stylesheets/index.min.css">
+    <link rel="stylesheet" href="stylesheets/nav.min.css">
+    <link rel="stylesheet" href="stylesheets/styleGuide.min.css">
+</head>
+<body>
+        <!-- <nav id="mainNav">
+    <a class="nav-link" href="/#plants">Find Plants</a>
+    <header style="display: flex; flex-direction: column; align-items: center;"><img style="width: 60px"; src="images/us-landscape2.png" alt=""></header>
+    <a class="nav-link" href="/cutting.html">Cutting Info</a>
+    <a class="nav-link" href="#projects">Past Projects</a>
+</nav> -->
+
+    <!-- @import nav.tpl.html -->
+
+    <section id="landing">
+        <div class="container position-relative">
+            <h1 class="w-100 pb-24">US NATIVE&nbsp;PLANTS</h1>
+            <div class="w-100 d-flex p-12 bg-beige" style="z-index: 1; border: 1px solid brown; border-radius: 1em; box-shadow: 0 5px 10px -5px;">
+                    <div id="plantViewport" class="w-75 p-24">
+                        <h1 class="text-align-center">Find A Plant</h1>
+                        <p class="mb-12 text-align-center">Search by Scientific or Common Name</p>
+                        <input class="mt-6 w-100" type="text">
+                    </div>
+                    <div id="addPlantForm" class="w-75 p-24 d-none">
+                        <div class="d-flex flex-wrap">
+                            <h1 class="w-100 mb-12 text-align-center">Add A Plant</h1>
+                            <div class="w-50 pr-24">
+                                <label>Scientific Name</label><br>
+                                <input name="scientificName" class="mt-6 w-100" type="text">
+                            </div>
+                            <div class="w-50 pr-24">
+                                <label>Common Name</label><br>
+                                <input name="commonName" class="mt-6  w-100" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="controlSection" class="w-25 px-24 d-flex flex-wrap align-items-center">
+                        <input id="searchPlantBtn" class="btn w-100 d-none" type="button" value="Search Plants">
+                        <input id="addPlantBtn" class="btn w-100" type="button" value="Add Plant">
+                    </div>
+            </div>
+            <div id="filterBar" class="w-100 bg-brown text-beige mt-n24 pt-24" style="border: 1px solid brown; border-radius: 1em; box-shadow: 0 5px 10px -5px;">
+                <div class="p-24 d-flex flex-wrap">
+                    <h1 class="w-100 text-align-center text-beige">Filters</h1>
+                </div>
+            </div>
+            <!-- <img src="images/landscape3.png" alt="" style="width: 300px; margin: auto;"> -->
+        </div>
+
+    </section>
+    <section id="addPlant">
+        <div class="container">
+            <h1>
+                More Detail
+            </h1>
+            <div class="w-100 py-24">
+                    <div class="w-100 d-flex pb-12">
+                        <div class="w-33 pr-24">
+                            <label>Plant Type</label><br>
+                            <input name="plantType" class="mt-6 mb-12 w-100" type="text">
+                        </div>
+                        <div class="w-33 pr-24 d-flex flex-wrap align-items-center">
+                            <label class="w-100">Height - Width (Ft)</label><br>
+                            <input name="height" class="mr-6 mt-6 mb-12 w-33" type="text">
+                            x
+                            <input name="width" class="ml-6 mt-6 mb-12 w-33" type="text">
+                        </div>
+                    </div>
+                    <div class="w-100 d-flex">
+                        <div class="w-33 pr-24">
+                            <label>Bloom Color</label><br>
+                            <input name="commonName" class="w-25 bg-green mt-6 mb-12" readonly="readonly">
+                            <input name="commonName" class="w-25 bg-orange mt-6 mb-12" readonly="readonly">
+                            <input name="commonName" class="w-25 bg-black mt-6 mb-12" readonly="readonly">
+
+                        </div>
+                        <div class="w-66 pr-12">
+                            <label>Bloom Time</label><br>
+                            <button name="commonName" class="w-auto btn bg-green m-6" value="Spring">Spring</button>
+                            <button name="commonName" class="w-auto btn bg-yellow  m-6" value="Summer">Summer</button>
+                            <button name="commonName" class="w-auto btn bg-orange m-6" value="Fall">Fall</button>
+                            <button name="commonName" class="w-auto btn bg-dark-blue m-6" value="Winter">Winter</button>
+                        </div>
+                    </div>
+                    // *** Propagation techniques
+                    propagation: {
+                        seed: {
+                            stratify: Boolean,
+                            germinationTime: Number,
+                            germinationNotes: String
+                        },
+                        cutting: {
+                            cuttingType: {
+                                type: String,
+                                lowercase: true
+                            },
+                            cuttingTime: {
+                                type: String,
+                                lowercase: true
+                            }
+                        }
+                    },
+                    imageURL: [String]
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section id="plantdb">
+        <div id="filterBar">
+        </div>
+        <!-- !! Plants fill in here -->
+        <template id="card-template">
+            <div class="plant-card">
+                <!-- <img src=""> -->
+
+                <div class="card-data">
+                    <div class="plant-name">
+                        <h3>Scientific_Name</h3>
+                        <h4>Common_Names</h4>
+                    </div>
+                    <!-- <p>Bloom_Time</p> -->
+                    <!-- <a href="#" target="_blank">Missouri Botanical</a><br>
+                    <a href="#" target="_blank">North Carolina State Uni</a><br>
+                    <a href="#" target="_blank">Wildflower(Uni Texas @ Austin)</a> -->
+                </div>
+            </div>
+        </template>
+    </section>
+
+    <script src="javascripts/utilities.min.js"></script>
+    <!-- <script src="javascript/test.min.js"></script> -->
+    <script src="javascripts/index.min.js"></script>
+
+</body>
+</html>

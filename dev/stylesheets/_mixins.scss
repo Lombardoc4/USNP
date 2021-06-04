@@ -1,0 +1,83 @@
+//=================================
+// breakpoint
+//=================================
+@mixin breakpoint($point, $direction: up) {
+    $dir: if($direction == up, min, max);
+    $point: if($point == xm, 0, $point);
+    $point: if($point == sm, 576px, $point);
+    $point: if($point == md, 768px, $point);
+    $point: if($point == lg, 992px, $point);
+    $point: if($point == xl, 1199px, $point);
+    @if $point == 0 {  @content; }
+    @else{
+      @media (#{$dir}-width: $point) { @content; }
+    }
+  }
+
+  @mixin breakpoint-up($point)   { @include breakpoint($point, up)  { @content; }; } // Mobile first
+  @mixin breakpoint-down($point) { @include breakpoint($point, down){ @content; }; } // Desktop first
+
+  //=================================
+  // position / center
+  //=================================
+  @mixin position($position, $args: ()) {
+    $offsets: top right bottom left;
+    position: $position;
+
+    @each $offset in $offsets {
+      $index: index($args, $offset);
+      @if $index {
+        @if $index == length($args) {
+          #{$offset}: 0;
+        } @else {
+          $next: nth($args, $index + 1);
+          @if is-valid-length($next) {
+            #{$offset}: $next;
+          } @else if index($offsets, $next) {
+            #{$offset}: 0;
+          } @else {
+            @warn "Invalid value `#{$next}` for offset `#{$offset}`.";
+          }
+        }
+      }
+    }
+  }
+
+  @mixin absolute($args: ()) { @include position(absolute, $args); }
+  @mixin relative($args: ()) { @include position(relative, $args); }
+  @mixin fixed($args: ())    { @include position(fixed,    $args); }
+
+  @mixin center($h: true, $v: true) {
+    position: absolute;
+    @if ($h and $v) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    } @else if ($h) {
+      left: 50%;
+      transform: translate(-50%, 0);
+    } @else if ($v) {
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+
+  @mixin center-h { @include center(true, false); }
+  @mixin center-v { @include center(false, true); }
+
+
+  // Opacity
+  @mixin opacity($opacity) {
+    $opacity-ie: $opacity * 100;
+    opacity: $opacity;
+    filter: alpha(opacity=$opacity-ie); //IE8
+  }
+
+  // Clearfix
+  @mixin clearfix() {
+    &:after {
+      display: block;
+      clear: both;
+      content: '';
+    }
+  }
