@@ -30,13 +30,14 @@ h2{
     // font-weight: 400;
 }
 
-input{
+input, textarea{
     font-size: 16px;
     outline: 0;
     border: 1px solid white;
     background-color: white;
     color: $brown;
     // font-size: 24px;
+    font-family: Palatino;
     padding: 0.5em 1em;
     border-radius: 1em;
     box-shadow: none;

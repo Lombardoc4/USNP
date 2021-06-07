@@ -20,7 +20,7 @@
 
     <section id="landing">
         <div class="container position-relative">
-            <h1 class="w-100 pb-24">US NATIVE&nbsp;PLANTS</h1>
+            <h1 class="w-100 text-align-center pb-24">US NATIVE&nbsp;PLANTS</h1>
             <div class="w-100 d-flex p-12 bg-beige" style="z-index: 1; border: 1px solid brown; border-radius: 1em; box-shadow: 0 5px 10px -5px;">
                     <div id="plantViewport" class="w-75 p-24">
                         <h1 class="text-align-center">Find A Plant</h1>
@@ -54,59 +54,120 @@
         </div>
 
     </section>
-    <section id="addPlant">
+    <section id="addPlant" class="d-none">
         <div class="container">
-            <h1>
+            <div class="w-100 pb-24">
+                <div class="goHome btn py-12 px-24">BACK</div>
+            </div>
+            <h1 class="w-100 pb-24 text-align-center">
                 More Detail
             </h1>
+            <div id="addPlantName" class="w-100 pb-24 d-flex flex-wrap justify-content-center">
+            </div>
             <div class="w-100 py-24">
                     <div class="w-100 d-flex pb-12">
                         <div class="w-33 pr-24">
-                            <label>Plant Type</label><br>
+                            <label>Plant Type:</label><br>
                             <input name="plantType" class="mt-6 mb-12 w-100" type="text">
                         </div>
                         <div class="w-33 pr-24 d-flex flex-wrap align-items-center">
-                            <label class="w-100">Height - Width (Ft)</label><br>
-                            <input name="height" class="mr-6 mt-6 mb-12 w-33" type="text">
+                            <label class="w-100">Height - Width (Ft):</label><br>
+                            <input name="height" class="mr-6 mt-6 mb-12 w-33" type="number">
                             x
-                            <input name="width" class="ml-6 mt-6 mb-12 w-33" type="text">
+                            <input name="width" class="ml-6 mt-6 mb-12 w-33" type="number">
                         </div>
                     </div>
-                    <div class="w-100 d-flex">
+                    <div class="w-100 d-flex pb-12">
                         <div class="w-33 pr-24">
-                            <label>Bloom Color</label><br>
-                            <input name="commonName" class="w-25 bg-green mt-6 mb-12" readonly="readonly">
-                            <input name="commonName" class="w-25 bg-orange mt-6 mb-12" readonly="readonly">
-                            <input name="commonName" class="w-25 bg-black mt-6 mb-12" readonly="readonly">
-
+                            <label>Bloom Color:</label> <br>
+                            <button name="bloomColor" class="w-25 btn bg-green mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-orange mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-black mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-yellow mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-green mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-brown mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-brown mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-dark-blue mt-6 mb-12" readonly="readonly"></button>
+                            <button name="bloomColor" class="w-25 btn bg-black mt-6 mb-12" readonly="readonly"></button>
                         </div>
                         <div class="w-66 pr-12">
-                            <label>Bloom Time</label><br>
-                            <button name="commonName" class="w-auto btn bg-green m-6" value="Spring">Spring</button>
-                            <button name="commonName" class="w-auto btn bg-yellow  m-6" value="Summer">Summer</button>
-                            <button name="commonName" class="w-auto btn bg-orange m-6" value="Fall">Fall</button>
-                            <button name="commonName" class="w-auto btn bg-dark-blue m-6" value="Winter">Winter</button>
+                            <label>Bloom Time:</label><br>
+                            <button name="bloomTime" class="w-auto btn bg-green m-6" value="Spring">Spring</button>
+                            <button name="bloomTime" class="w-auto btn bg-yellow  m-6" value="Summer">Summer</button>
+                            <br>
+                            <button name="bloomTime" class="w-auto btn bg-orange m-6" value="Fall">Fall</button>
+                            <button name="bloomTime" class="w-auto btn bg-dark-blue m-6" value="Winter">Winter</button>
                         </div>
                     </div>
-                    // *** Propagation techniques
-                    propagation: {
-                        seed: {
-                            stratify: Boolean,
-                            germinationTime: Number,
-                            germinationNotes: String
-                        },
-                        cutting: {
-                            cuttingType: {
-                                type: String,
-                                lowercase: true
-                            },
-                            cuttingTime: {
-                                type: String,
-                                lowercase: true
-                            }
-                        }
-                    },
-                    imageURL: [String]
+                    <!-- <div class="w-100 d-flex pb-12"> -->
+                        <div class="w-50 pr-24 pb-12">
+                            <label>Moisture Levels:</label><br>
+                            <button name="moistureLevel" class="w-auto btn bg-yellow mt-6 mb-12" readonly="readonly">Drought Tolerant</button>
+                            <button name="moistureLevel" class="w-auto btn bg-green mt-6 mb-12" readonly="readonly">Average</button>
+                            <button name="moistureLevel" class="w-auto btn bg-dark-blue mt-6 mb-12" readonly="readonly">Wetland</button>
+
+                        </div>
+                        <div class="w-66 pr-12 pb-12">
+                            <label>Setting:</label><br>
+                            <button name="setting" class="w-auto btn bg-green m-6" value="Spring">Forest</button>
+                            <button name="setting" class="w-auto btn bg-yellow  m-6" value="Summer">Meadow</button>
+                            <button name="setting" class="w-auto btn bg-orange m-6" value="Fall">Marsh</button>
+                            <button name="setting" class="w-auto btn bg-dark-blue m-6" value="Winter">Seaside</button>
+                        </div>
+
+                        <div class="w-100 d-flex flex-wrap py-12">
+                            <label class="w-100 pb-12"><h1>Propagation:</h1></label>
+                            <label class="w-100 pb-6 font-weight-bold">SEEDS:</label>
+                            <div class="w-33 pr-24">
+                                <label>Cold Stratify:</label> <br>
+                                <button name="coldStratify" class="w-25 btn bg-green mt-6 mb-12" readonly="readonly">Yes</button>
+                                <button name="coldStratify" class="w-25 btn bg-orange mt-6 mb-12" readonly="readonly">No</button>
+                            </div>
+                            <div class="w-33 pr-24 d-flex flex-wrap align-items-center">
+                                <label class="w-100">Germination Period:</label><br>
+                                <input name="germinationTime" class="mr-6 mt-6 mb-12 w-33" type="number"> Days
+                            </div>
+                            <div class="w-66 pr-12 pb-12">
+                                <label>Collection Time:</label><br>
+                                <button name="collectionTime" class="w-auto btn bg-green m-6" value="Spring">Spring</button>
+                                <button name="collectionTime" class="w-auto btn bg-yellow  m-6" value="Summer">Summer</button>
+                                <button name="collectionTime" class="w-auto btn bg-orange m-6" value="Fall">Fall</button>
+                                <button name="collectionTime" class="w-auto btn bg-dark-blue m-6" value="Winter">Winter</button>
+                            </div>
+                            <div class="w-66 pr-12 pb-12">
+                                <label>Detailed Notes:</label><br>
+                                <textarea name="germinationNotes" class="mt-6 mb-12 w-100" type="text" style="resize: none;"></textarea>
+                            </div>
+                            <label class="w-100 pb-6 font-weight-bold">CUTTINGS:</label>
+
+                            <div class="w-66 pr-24">
+                                <label>Cutting Type:</label> <br>
+                                <button name="cuttingType" class="w-auto btn bg-green mt-6 mb-12" readonly="readonly">Softwood</button>
+                                <button name="cuttingType" class="w-auto btn bg-orange mt-6 mb-12" readonly="readonly">Semi-hardwood</button>
+                                <button name="cuttingType" class="w-auto btn bg-dark-blue mt-6 mb-12" readonly="readonly">Hardwood</button>
+                            </div>
+
+                            <div class="w-66 pr-12 pb-12">
+                                <label>Cutting Time:</label><br>
+                                <button name="cuttingTime" class="w-auto btn bg-green m-6" value="Spring">Spring</button>
+                                <button name="cuttingTime" class="w-auto btn bg-yellow  m-6" value="Summer">Summer</button>
+                                <button name="cuttingTime" class="w-auto btn bg-orange m-6" value="Fall">Fall</button>
+                                <button name="cuttingTime" class="w-auto btn bg-dark-blue m-6" value="Winter">Winter</button>
+                            </div>
+                            <div class="w-66 pr-24 d-flex flex-wrap align-items-center">
+                                <label class="w-100">Rooting Period:</label><br>
+                                <input name="rootingTime" class="mr-6 mt-6 mb-12 w-33" type="number"> Days
+                            </div>
+                            <div class="w-66 pr-12">
+                                <label>Detailed Notes:</label><br>
+                                <textarea name="cuttingNotes" class="mt-6 mb-12 w-100" type="text" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <div class="dragDrop">
+                            Drap Drop Images for yea server below
+                        </div>
+                    <!-- </div> -->
+
                 </div>
             </div>
         </div>

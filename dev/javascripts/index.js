@@ -92,17 +92,8 @@
         });
     }
 
-    const addPlantInit = () => {
-        const sciName = document.querySelector('#addPlantForm input[name=scientificName]').value;
-        const comName = document.querySelector('#addPlantForm input[name=commonName]').value
-        console.log('addPlant - Get Form Data', [sciName, comName]);
 
-        // Check db data received to see if plant exists
-        // if exists, show
-        // else
-        // go to different page
-        document.getElementById('landing').classList.add('d-none')
-    }
+
 
     const toggleSearchAdd = () => {
         document.getElementById('addPlantForm').classList.toggle('d-none');
@@ -115,6 +106,47 @@
 
     }
 
+    const addPlantInit = () => {
+        const sciName = document.querySelector('#addPlantForm input[name=scientificName]').value;
+        const comName = document.querySelector('#addPlantForm input[name=commonName]').value
+        console.log('addPlant - Get Form Data', [sciName, comName]);
+        // Check db data received to see if plant exists
+        // if exists, show
+        // else
+        // go to different page
+
+
+
+        const toggleForm = () => {
+            document.getElementById('landing').classList.toggle('d-none')
+            document.getElementById('addPlant').classList.toggle('d-none')
+        }
+
+
+        document.getElementById('addPlantName').innerHTML= '';
+        document.getElementById('addPlantName').append(<div className="w-33"><h2 id="formSciName" class="">Scientific Name: </h2><p>{sciName}</p></div>);
+        document.getElementById('addPlantName').append(<div className="w-33"><h2 id="formComName" class="">CommonName: </h2><p>{comName}</p></div>);
+
+
+        _.each(document.getElementsByClassName('goHome'), el => {
+            el.addEventListener('click', toggleForm);
+            el.addEventListener('click', toggleSearchAdd);
+            el.addEventListener('click', function f() {
+
+                this.removeEventListener('click', toggleForm);
+                this.removeEventListener('click', toggleSearchAdd);
+
+            document.getElementById('addPlantBtn').addEventListener('click', toggleSearchAdd);
+            document.getElementById('addPlantBtn').removeEventListener('click', addPlantInit);
+            });
+        })
+
+        // Init form
+        toggleForm();
+
+
+    }
+
     const init = () => {
         // getAllPlants();
 
@@ -124,6 +156,7 @@
         document.getElementById('searchPlantBtn').addEventListener('click', toggleSearchAdd);
         document.getElementById('searchPlantBtn').addEventListener('click', () => {
             document.getElementById('addPlantBtn').addEventListener('click', toggleSearchAdd);
+            document.getElementById('addPlantBtn').removeEventListener('click', addPlantInit);
         });
         // document.getElementById('addPlantInput').addEventListener('keydown', getPlant);
 
