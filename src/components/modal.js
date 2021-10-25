@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 
 ReactModal.setAppElement('#root')
 
-export default function Modal({contentLabel, children, variant, toggleModal, showModal}) {
+export default function Modal({contentLabel, children, variant, toggleModal, showModal, overlayOff = false}) {
 
   const customStyles = {
     overlay: {
@@ -19,7 +19,7 @@ export default function Modal({contentLabel, children, variant, toggleModal, sho
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
   };
 
@@ -31,7 +31,7 @@ export default function Modal({contentLabel, children, variant, toggleModal, sho
         {...contentLabel}
         style={customStyles}
         onRequestClose={toggleModal}
-        shouldCloseOnOverlayClick={true}
+        shouldCloseOnOverlayClick={overlayOff}
       >
         {children}
       </ReactModal>

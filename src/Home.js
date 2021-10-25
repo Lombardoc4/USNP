@@ -8,37 +8,24 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Stack from 'react-bootstrap/Stack'
-import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup, faGamepad, faLeaf } from '@fortawesome/free-solid-svg-icons'
 import Modal from './components/modal'
+import SignInForm from './components/SignInForm'
+import SignUpForm from './components/SignUpForm'
+import { useHistory } from 'react-router-dom'
 
-function SignUpForm({toggleModal}) {
-  return(
-    <Form>
-      <Form.Group className="mb-3" controlId="formBasicName">
-        <Form.Label>Name</Form.Label>
-        <Form.Control type="text" placeholder="Any Name" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
-      <div className="d-flex">
-        <Button onClick={toggleModal} variant="outline-success">Cancel</Button>
-        <Button className="ms-auto" type="submit" onClick={e => e.preventDefault()} variant="success">Sign Up</Button>
-      </div>
-    </Form>
-  )
-}
 
-function App() {
+
+function Home() {
   const [showModal, setModal] = useState(false);
+  const [showSignIn, setSignIn] = useState(false);
+  const [token, setToken] = useState(window.localStorage.user);
+  const history = useHistory();
 
   const toggleModal = () => {
+    history.location.pathname === '/signup' ? history.push('/') : history.push('/signup');
+
     setModal(!showModal);
   }
 
@@ -46,9 +33,22 @@ function App() {
     showModal ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
  }, [showModal]);
 
+ const signIn = () => {
+
+  if (token) {
+    // Redirect to Database
+    return history.push('/dashboard')
+  }
+  history.location.pathname === '/login' ? history.push('/') : history.push('/login');
+  // history.push('/login')
+  setSignIn(!showSignIn)
+ }
 
   return (
     <div className="App">
+          <Row>
+            <Modal toggleModal={() => signIn()} showModal={showSignIn}  contentLabel="Dashboard "><SignInForm toggleModal={signIn}/></Modal>
+          </Row>
       <header className="Landing">
         <Container>
           <Row className="align-items-md-center">
@@ -59,7 +59,7 @@ function App() {
               <div className="m-5">
                 <p className="mb-5">Learn all about plants in a free,&nbsp;enjoyable, and efficient way</p>
                 <Stack gap={2} className="col-md-5 mx-auto">
-                  <Modal toggleModal={toggleModal} showModal={showModal} variant="success" contentLabel="Sign Up for Updates"><SignUpForm toggleModal={toggleModal}/></Modal>
+                  <Modal toggleModal={toggleModal} overlayOff showModal={showModal} variant="success" contentLabel="Sign Up for Updates"><SignUpForm toggleModal={toggleModal}/></Modal>
                   <Button href="#about" variant="outline-success">Learn More</Button>
                 </Stack>
               </div>
@@ -111,4 +111,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
