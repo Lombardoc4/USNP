@@ -21,7 +21,9 @@ export default function SignInForm({toggleModal}) {
         const  resData = await res.json();
 
 
-      window.localStorage.user = JSON.stringify(resData);
+        window.localStorage.farms = JSON.stringify(resData.farms);
+        delete resData.farms
+        window.localStorage.user = JSON.stringify(resData);
     }
 
     return (
