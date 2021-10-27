@@ -36,17 +36,22 @@ function Home() {
  const signIn = () => {
 
   if (token) {
-    // Redirect to Database
-    return history.push('/dashboard')
+    // Redirect to Dashboard
+    history.push('/dashboard')
   }
-  history.location.pathname === '/login' ? history.push('/') : history.push('/login');
+  if (history.location.pathname === ('/'))
+    history.push('?login=true');
+
+  if (history.location.pathname.includes('?login'))
+    history.push('/')
+
   // history.push('/login')
   setSignIn(!showSignIn)
  }
 
   return (
     <div className="App">
-          <Row>
+          <Row className="g-0">
             <Modal toggleModal={() => signIn()} showModal={showSignIn}  contentLabel="Dashboard "><SignInForm toggleModal={signIn}/></Modal>
           </Row>
       <header className="Landing">

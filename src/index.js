@@ -8,15 +8,17 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import SignInForm from './components/SignInForm';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
         <Switch>
+          <Route exact path={"/"} component={Home} />
           <Route path="/dashboard" component={Dashboard}/>
-          <Route path="/" component={Home} />
         </Switch>
+
       </Router>
     </Provider>
   </React.StrictMode>,
