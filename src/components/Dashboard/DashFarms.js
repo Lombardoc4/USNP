@@ -34,7 +34,7 @@ const DashFarm = () => {
         }
         const farms  = JSON.parse(window.localStorage.farms);
         const fetchData = async () => {
-            const res = await fetch('http://localhost:8000/api/user/farms',
+            const res = await fetch('http://localhost:8000/api/user-dash/farms',
             {
                 method: 'POST',
                 body: JSON.stringify({farms: farms}),
@@ -71,7 +71,7 @@ const DashFarm = () => {
             <Row md={2} xl={4} >
                 {userFarms.map(f => <FarmCard key={f.name} farm={f}/>)}
             </Row>}
-            <Link to="/your-farms"><Button variant="info" className="mt-3 w-100">See all Farms</Button></Link>
+            <Link to="/my-farms"><Button variant="info" className="mt-3 w-100">See all Farms</Button></Link>
 
         </Container>
     )

@@ -23,15 +23,19 @@ app.post('/auth/login', async (req, res) => {
     const user = await db.collection('users').findOne({
         email: req.body.email + '',
     })
-    console.log('minished', user)
-    if (!user)
-        return res.send('No Data');
-
+    const err = {}
+    if (!user) {
+        err.email='User does not exist'
+        return res.json({err: err});
+    } else {
+        err.email=false;
+    }
     // const checkPassword = await compare(req.body.password, user.password)
-    const checkPassword = true
+    const passwordPass = true;
 
-    if (!checkPassword)
-        return res.send('Incorrect Password')
+    err.password = !passwordPass ? 'Incorrect Password' : '';
+    if (err.password)
+        return res.json({err: err});
 
     delete user?.password;
     res.json(user)
@@ -40,10 +44,35 @@ app.post('/auth/login', async (req, res) => {
 app.post('/api/user/farms', async (req, res) => {
     const farms = req.body.farms.map(f=> new ObjectId(f))
     const { db } = await connectToDatabase();
+    const userFarms = await db.collection('farms').find({"_id" : {"$in" : farms}}).toArray();
+    res.json(userFarms)
+    // const userFarms
+})
+
+app.post('/api/user-dash/farms', async (req, res) => {
+    const farms = req.body.farms.map(f=> new ObjectId(f))
+    const { db } = await connectToDatabase();
     const userFarms = await db.collection('farms').find({"_id" : {"$in" : farms}}).limit(6).toArray();
     res.json(userFarms)
     // const userFarms
 })
+
+app.get('/api/farms', async (req, res) => {
+
+    const { db } = await connectToDatabase();
+    const allFarms = await db.collection('farms').find({}).toArray();
+    res.json(allFarms)
+});
+
+// TODO: figure out how users obtain plants to their name
+// todo: -> Comes from orders & Inventory input
+// app.post('/api/user/plants', async (req, res) => {
+//     const plants = req.body.plants.map(p=> new ObjectId(p))
+//     const { db } = await connectToDatabase();
+//     const userFarms = await db.collection('generalPlants').find({"_id" : {"$in" : plants}}).toArray();
+//     res.json(userFarms)
+//     // const userFarms
+// })
 
 app.get('/api/plants', async (req, res) => {
     const { db } = await connectToDatabase();

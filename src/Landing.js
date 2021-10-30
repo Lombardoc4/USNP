@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState} from 'react';
 import logo from './flower.png';
 import city from './greenScape.png';
-import './Home.scss';
+import './Landing.scss';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -10,9 +10,9 @@ import Button from 'react-bootstrap/Button'
 import Stack from 'react-bootstrap/Stack'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup, faGamepad, faLeaf } from '@fortawesome/free-solid-svg-icons'
-import Modal from './components/modal'
-import SignInForm from './components/SignInForm'
-import SignUpForm from './components/SignUpForm'
+import Modal from './components/Modal'
+import SignInModal from './components/Login/SignInModal'
+import SignUpForm from './components/Login/SignUpForm'
 import { useHistory } from 'react-router-dom'
 
 
@@ -24,36 +24,19 @@ function Home() {
   const history = useHistory();
 
   const toggleModal = () => {
-    history.location.pathname === '/signup' ? history.push('/') : history.push('/signup');
+    history.location.search.includes('signup') ? history.push('/') : history.push('/?signup=true');
 
     setModal(!showModal);
   }
 
-  useEffect(() => {
-    showModal ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
- }, [showModal]);
+//   useEffect(() => {
+//     showModal ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
+//  }, [showModal]);
 
- const signIn = () => {
-
-  if (token) {
-    // Redirect to Dashboard
-    history.push('/dashboard')
-  }
-  if (history.location.pathname === ('/'))
-    history.push('?login=true');
-
-  if (history.location.pathname.includes('?login'))
-    history.push('/')
-
-  // history.push('/login')
-  setSignIn(!showSignIn)
- }
 
   return (
     <div className="App">
-          <Row className="g-0">
-            <Modal toggleModal={() => signIn()} showModal={showSignIn}  contentLabel="Dashboard "><SignInForm toggleModal={signIn}/></Modal>
-          </Row>
+      <SignInModal/>
       <header className="Landing">
         <Container>
           <Row className="align-items-md-center">

@@ -1,15 +1,15 @@
 import Container from "react-bootstrap/Container"
 import  Row  from "react-bootstrap/Row"
-import './Dashboard/Dashboard.scss'
-import DashNav from "./Dashboard/DashNav"
-import DashLanding from "./Dashboard/DashLanding"
-import DashFarm from "./Dashboard/DashFarms"
+import './Dashboard.scss'
+import DashLanding from "./DashLanding"
+import DashFarm from "./DashFarms"
 
 import { Switch, Route, useRouteMatch } from "react-router-dom"
+import Layout from "../Layout"
 
 // TODO: Refactor
 export default function Dashboard() {
-    let { path} = useRouteMatch();
+    let { path, url} = useRouteMatch();
     const Dash = () => (
         <><DashLanding /><Container fluid className="g-0">
             <Row className="g-0">
@@ -18,19 +18,17 @@ export default function Dashboard() {
         </Container><DashFarm /></>
     )
 
+    console.log(path, url);
     return (
-    <>
-            <Container className="my-3">
-                <DashNav/>
-            </Container>
-
+        <Layout>
             <Switch>
-                <Route exact path={path}>
+                <Route exact path={'/dashboard'}>
                     <Dash/>
                 </Route>
+                <Route path={'/dashboard/find-plants'}><h1>Test</h1></Route>
             {/* <Route path={`${path}/:topicId`}>
             </Route> */}
             </Switch>
-        </>
+        </Layout>
     )
 }

@@ -1,7 +1,9 @@
 import { useState, useEffect, forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-
+import Layout from './Layout';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
 function IconImg({url, sciName}) {
     return (
@@ -11,43 +13,35 @@ function IconImg({url, sciName}) {
     )
 }
 
-
-function NameBox({label, name}){
+function NameBox({className, name, label}){
     // Return List of names with commas, except for last one
     const nameMap = () => (name.map((singleName, index) => (`${singleName.replace(' ', '\xa0')}${index + 1 !== name.length ? ', ' : ''}`)));
 
     return(
-        <p style={{paddingBottom: '1em'}}>
-            {label} <br/>
-            <span style={{fontWeight: 'bold'}}>
+        <p className={className}>
+            {label && <b>{label}:&nbsp;</b>}
+            <span>
                 {Array.isArray(name) && name.length > 1 ? nameMap() : name }</span>
         </p>
     )
 }
 
-function PlantNameBox({sciName, comName}) {
+function PlantNameBox({sciName, comName, varieties}) {
     return(
         <div>
-            <NameBox label="Scientific Name" name={sciName}/>
-            <NameBox label="Common Name" name={comName}/>
+            <NameBox className="h5" name={sciName}/>
+            <NameBox name={comName}/>
+            {varieties && <NameBox label="Varieties" name={varieties}/>}
         </div>
     )
 }
 
-function PlantBox({onClick, imgSrc, scientificName, commonNames}) {
+function PlantBox({onClick, imgSrc, scientificName, commonNames, varieties}) {
     return(
-        <div onClick={onClick} style={{display: "flex", alignItems: "center", padding: "1em", border: '1px solid green'}}>
+        <ListGroup.Item onClick={onClick} className="d-flex align-items-center p-3">
             <IconImg url={imgSrc}  sciName={scientificName}/>
-            <PlantNameBox sciName={scientificName} comName={commonNames}/>
-        </div>
-    )
-}
-
-function PlantTable({children}) {
-    return (
-        <div style={{width: '100%'}}>
-            {children}
-        </div>
+            <PlantNameBox sciName={scientificName} comName={commonNames} varieties={varieties}/>
+        </ListGroup.Item>
     )
 }
 
@@ -80,40 +74,37 @@ const Select = forwardRef(({ handleChange, onBlur, name, label }, ref) => (
       </select>
   ));
 
-function Input({ value, setSearchQuery, label, register, required }) {
-
+function Input({inputRegister, label, className }) {
     return(
-        <div>
+        <>
         {/* <label>{label}</label> */}
-            <input placeholder={label} {...register(label, { required, ...value, onChange: (e) => {setSearchQuery(e.target.value)} })} />
-        </div>
+            <input className={className} placeholder={label} {...inputRegister} />
+        </>
     )
 }
 
 
 
-function FilterBar({setFname, fname, searchQuery, setSearchQuery}) {
-    const { register, handleSubmit } = useForm({});
-    // const [filters, setFilters] = useState({
-    //     query: '',
-    //     // options: [],
-    // })
+function FilterBar({searchQuery, setSearchQuery}) {
 
+    const history = useHistory();
+    const onChange = (value) => {
+        setSearchQuery(value);
+        history.push(history.location.pathname + '?pq=' + value);
+    }
 
-    const onQuery = (data) => {
-        console.log('data', data);
-        // setFilters({...filters, query: data});
-    };
-
+    const inputRegister = {value: searchQuery, onChange: (e) => {onChange(e.target.value)} }
 
     return (
-        <form style={{display: 'flex', justifyContent:'space-between', alignItems: 'center', padding: '1em 0'}} onSubmit={e => e.preventDefault()}>
-            <Input value={searchQuery} setSearchQuery={setSearchQuery} label="Search" register={register}/>
+        <form style={{display: 'flex', alignItems: 'center', padding: '1em 0'}} onSubmit={e => e.preventDefault()}>
+
+            <Input inputRegister={inputRegister} label="Scientific/Common Name" className="w-50" />
             <div style={{display: 'flex'}}>
-                {/* <Select handleChange={handleSubmit(onSubmit)} label="Bloom Time" {...register("Bloom Time")} />
-                <Select handleChange={handleSubmit(onSubmit)} label="Life Cycle" {...register("Life Cycle")} />
-                <Select handleChange={handleSubmit(onSubmit)} label="Wildlife" {...register("Wildlife")} /> */}
+                {/* <Select handleChange={handleSubmit(onQuery)} label="Bloom Time" {...register("Bloom Time")} />
+                <Select handleChange={handleSubmit(onQuery)} label="Life Cycle" {...register("Life Cycle")} />
+                <Select handleChange={handleSubmit(onQuery)} label="Wildlife" {...register("Wildlife")} /> */}
             </div>
+            <Button size="sm" className="mx-3" onClick={() => {onChange('')}} variant="outline-secondary">Clear</Button>
             {/* <input type="submit" /> */}
         </form>
     );
@@ -133,22 +124,27 @@ const filterPlants = (list, query) => {
     });
 };
 
-export default function DatabaseTable() {
-    const history = useHistory()
-    if (!window.localStorage.user) {
-        history.replace('/')
-    }
-    console.log('tes');
+export default function DatabaseTable( props ) {
+    const query = new URLSearchParams(props.location.search)
     const [allPlants, setAllPlants] = useState([]);
     const [plantList, setPlantList] = useState([]);
     const [detailPlant, setDetailPlant] = useState({});
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(query.get('pq') || '');
 
     useEffect(() => {
-        let isMounted = true;               // note mutable flag
+        // let isMounted = true;               // note mutable flag
         if (allPlants.length === 0) {
             const fetchData = async () => {
-                const res = await fetch('http://localhost:8000/api/plants');
+                const options = {}
+                if (props.user)  {
+                    options.method = "POST"
+                    options.body = JSON.stringify({farms: JSON.parse(window.localStorage.farms)});
+                    options.headers = {
+                        'Content-Type': 'application/json'
+                    };
+                }
+                const apiQuery = props.user ? '/user/plants' : '/plants'
+                const res = await fetch('http://localhost:8000/api' + apiQuery, options);
                 if (!res) { return 'No Data'}
                 return await res.json();
             };
@@ -157,48 +153,52 @@ export default function DatabaseTable() {
                 if (!data){
                     return;
                 }
-                if (isMounted){
+                // if (isMounted){
                     setAllPlants(data);    // add conditional check
                     setPlantList(data);
                     setDetailPlant({...data[0]});
-                }
+                // }
             });
         } else {
             setPlantList(filterPlants(allPlants, searchQuery));
         }
 
-        return () => { isMounted = false };
+        // return () => { isMounted = false };
 
-    }, [searchQuery])
+    }, [allPlants, searchQuery])
 
     const PlantBoxClick = (index) => {
         setDetailPlant(plantList[index])
     }
 
     return(
-        <>
+        <Layout>
             {/* {Admin Nav} */}
 
-            <main style={{maxWidth: '80%', margin: 'auto'}}>
-                {plantList.length > 0 &&
+            <main className="container">
                 <>
                     <FilterBar
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery} />
                     <div style={{ display: 'flex' }}>
+                        <div style={{ width: '67%' }}>
+                            { plantList.length > 0 ?
+                                <ListGroup variant="flush">
+                                    {plantList.map((plant, index) => <PlantBox onClick={() => PlantBoxClick(index)} key={index} {...plant} />)}
+                                </ListGroup>
+                                :
+                                <p className="fs-3 text-center"> No plants by the name:<br/>
+                                    <b>{searchQuery}</b>
+                                </p>
+                            }
+                        </div>
                         <div style={{ width: '33%' }}>
                             <DetailPlantView {...detailPlant} />
                         </div>
-                        <div style={{ width: '67%' }}>
-                            <PlantTable>
-                                {plantList.map((plant, index) => <PlantBox onClick={() => PlantBoxClick(index)} key={index} {...plant} />)}
-                            </PlantTable>
-                        </div>
                     </div>
-                </>}
-                {plantList?.length === 0 && <h1> No Data Please Login</h1>}
+                </>
 
             </main>
-        </>
+        </Layout>
     )
 }

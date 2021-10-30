@@ -1,5 +1,6 @@
 import ReactModal from 'react-modal';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import React, {useEffect} from 'react';
 
 ReactModal.setAppElement('#root')
 
@@ -22,6 +23,10 @@ export default function Modal({contentLabel, children, variant, toggleModal, sho
       alignItems: 'center',
     },
   };
+
+  useEffect(() => {
+    showModal ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
+ }, [showModal]);
 
   return (
     <>
