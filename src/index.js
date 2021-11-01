@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.scss';
 import DatabaseTable from './components/DatabaseTable';
 import FarmTable from './components/FarmTable';
+import Checkout from './components/Stripe/Checkout';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,6 +24,8 @@ ReactDOM.render(
           <Route path="/my-farms" component={routeProps => (
               <FarmTable {...routeProps} user="true" />
           )}/>
+          <Route path="/your-orders" component={Checkout}/>
+
         </Switch>
 
       </Router>
