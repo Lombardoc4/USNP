@@ -1,47 +1,58 @@
 {
-    "name": "propeller",
-    "version": "1.0.0",
-    "description": "Propeller Compiler",
-    "main": "gulpfile.js",
-    "scripts": {
-        "gulp": "gulp",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {},
-    "author": "Waldir Bolanos",
-    "license": "ISC",
-    "devDependencies": {
-        "@babel/core": "^7.8.4",
-        "@babel/plugin-transform-react-jsx": "^7.13.12",
-        "@babel/plugin-transform-runtime": "^7.13.15",
-        "@babel/preset-env": "^7.8.4",
-        "@fullhuman/postcss-purgecss": "^2.0.6",
-        "autoprefixer": "^9.7.4",
-        "browser-sync": "^2.26.7",
-        "cssnano": "^4.1.10",
-        "gulp": "^4.0.2",
-        "gulp-babel": "^8.0.0",
-        "gulp-changed": "^4.0.2",
-        "gulp-concat": "^2.6.1",
-        "gulp-connect-php": "^1.0.3",
-        "gulp-debug": "^4.0.0",
-        "gulp-htmlmin": "5.0.1",
-        "gulp-if": "^3.0.0",
-        "gulp-load-plugins": "^2.0.1",
-        "gulp-notify": "^3.2.0",
-        "gulp-plumber": "1.2.1",
-        "gulp-postcss": "^8.0.0",
-        "gulp-rename": "^2.0.0",
-        "gulp-replace": "^1.0.0",
-        "gulp-sass": "^4.0.2",
-        "gulp-sourcemaps": "^2.6.5",
-        "gulp-svgo": "^2.1.1",
-        "gulp-tinypng-compress": "^1.2.5",
-        "gulp-uglify": "^3.0.2",
-        "path": "^0.12.7",
-        "postcss-combine-media-query": "^1.0.0"
-    },
-    "browserslist": [
-        "last 2 Chrome versions"
+  "name": "usnp-3",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@stripe/react-stripe-js": "^1.6.0",
+    "@stripe/stripe-js": "^1.20.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "bootstrap": "^5.1.1",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.0.0-rc.1",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.17.5",
+    "react-modal": "^3.14.3",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "sass": "^1.43.2",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.3",
+    "mongoose": "^6.0.7",
+    "stripe": "^8.184.0"
+  },
+  "homepage": "http://localhost:3000",
+  "proxy": "http://localhost:8000",
+  "scripts": {
+    "start-client": "react-scripts start",
+    "start-server": "nodemon index.js",
+    "start": "concurrently \"npm run start-client\" \"npm run start-server\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
+  }
 }

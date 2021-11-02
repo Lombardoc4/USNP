@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xl: 960px,
+        xxl: 960px,
+) !default;
+
+@import "~bootstrap/scss/bootstrap";
+
+
+h1, h2, h3, h4, h5{
+  font-family: 'Comfortaa', sans-serif, cursive;
+  font-weight: bold;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+  transition: opacity 600ms ease-in-out;
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+}
+
+.mh-48px {
+  min-height: 48px;
+}
